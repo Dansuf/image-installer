@@ -177,7 +177,3 @@ done
 [ ! -z $DATAPATH/SWAP.img ] && adb push $DATAPATH/SWAP.img /data/
 adb push $DATAPATH/system.img /data/ >/dev/null 2>&1
 echo -n "[done]"
-
-echo -n "cleaning up ... "
-cleanup_device
-echo "[done]"
