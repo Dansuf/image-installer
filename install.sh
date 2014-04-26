@@ -58,17 +58,8 @@ prepare_ubuntu_system()
 cleanup()
 {
 	mount | grep -q $TMPMOUNT 2>/dev/null && umount $TMPMOUNT
-	#cleanup_device
 	rm -rf $WORKDIR
 	echo
-}
-
-cleanup_device()
-{
-	[ -e $WORKDIR/device-clean ] && return
-	cd $DIR # Without it the script is inside the image which prevents from unmounting it
-	umount $WORKDIR/system/ 2>/dev/null && rm -rf $WORKDIR/system 2>/dev/null
-	[ -e $WORKDIR ] && touch $WORKDIR/device-clean 2>/dev/null || true
 }
 
 trap cleanup 0 1 2 3 9 15
