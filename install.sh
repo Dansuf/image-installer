@@ -21,6 +21,8 @@
 #  USA
 #
 
+DATAPART="/dev/block/mmcblk0p2" # Path to data partition on the device. You may want to change it if you use custom partitioning.
+
 set -e
 
 check_prereq()
@@ -56,7 +58,7 @@ prepare_ubuntu_system()
 cleanup()
 {
 	mount | grep -q $TMPMOUNT 2>/dev/null && umount $TMPMOUNT
-	cleanup_device
+	#cleanup_device
 	rm -rf $WORKDIR
 	echo
 }
@@ -174,6 +176,9 @@ touch $WORKDIR/system/home/phablet/.display-mir
 echo "[done]"
 
 echo -n "Deploying the image ... "
+cd $DIR
+umount $WORKDIR/system
+do_shell "mount -o loop -t ext4 $DATAPART /data"
 do_shell "rm -f /data/system.img" >/dev/null 2>&1
 for data in system android data user; do
 	do_shell "rm -rf /data/$data-data" >/dev/null 2>&1
